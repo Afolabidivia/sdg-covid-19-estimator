@@ -2,7 +2,7 @@
     whether it is impact or severe impact
     reportedType can only be 0 or 1 which is impact and severe impact respectively
 * */
-function currentlyInfectedPeople(reportedCases, reportedType) {
+const currentlyInfectedPeople = (reportedCases, reportedType) => {
   let infectedPeople;
   if (reportedType === 0) {
     infectedPeople = reportedCases * 10;
@@ -10,9 +10,9 @@ function currentlyInfectedPeople(reportedCases, reportedType) {
     infectedPeople = reportedCases * 50;
   }
   return infectedPeople;
-}
+};
 
-function sortDaysCalculation(periodType, timeToElapse) {
+const sortDaysCalculation = (periodType, timeToElapse) => {
   switch (periodType) {
     case 'days':
       return 2 * Math.trunc((timeToElapse / 3));
@@ -23,7 +23,7 @@ function sortDaysCalculation(periodType, timeToElapse) {
     default:
       return null;
   }
-}
+};
 
 const covid19ImpactEstimator = (data) => {
   const inputData = data;
