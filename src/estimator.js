@@ -13,13 +13,14 @@ const currentlyInfectedPeople = (reportedCases, reportedType) => {
 };
 
 const sortDaysCalculation = (periodType, timeToElapse) => {
-  switch (periodType) {
+  const formattedPeriodType = periodType.toLowerCase();
+  switch (formattedPeriodType) {
     case 'days':
-      return 2 * Math.trunc((timeToElapse / 3));
+      return 2 ** Math.trunc((timeToElapse / 3));
     case 'weeks':
-      return 2 * Math.trunc((timeToElapse * 7) / 3);
+      return 2 ** Math.trunc((timeToElapse * 7) / 3);
     case 'months':
-      return 2 * Math.trunc((timeToElapse * 30) / 3);
+      return 2 ** Math.trunc((timeToElapse * 30) / 3);
     default:
       return null;
   }
