@@ -57,9 +57,10 @@ const covid19ImpactEstimator = (data) => {
     (2 / 100) * impactInfectionsByRequestedTime
   );
   const impactDollarsInFlight = Math.trunc(
-    (impactInfectionsByRequestedTime * inputData.region.avgDailyIncomePopulation)
-    * inputData.region.avgDailyIncomeInUSD
-    * sortDaysCalculation(inputData.periodType, inputData.timeToElapse)
+    (impactInfectionsByRequestedTime
+    * inputData.region.avgDailyIncomePopulation
+    * inputData.region.avgDailyIncomeInUSD)
+    / sortDaysCalculation(inputData.periodType, inputData.timeToElapse)
   );
 
   // Severe Impact variable declarations
@@ -77,9 +78,10 @@ const covid19ImpactEstimator = (data) => {
     (2 / 100) * severeImpactInfectionsByRequestedTime
   );
   const severeImpactDollarsInFlight = Math.trunc(
-    (severeImpactInfectionsByRequestedTime * inputData.region.avgDailyIncomePopulation)
-    * inputData.region.avgDailyIncomeInUSD
-    * sortDaysCalculation(inputData.periodType, inputData.timeToElapse)
+    (severeImpactInfectionsByRequestedTime
+    * inputData.region.avgDailyIncomePopulation
+    * inputData.region.avgDailyIncomeInUSD)
+    / sortDaysCalculation(inputData.periodType, inputData.timeToElapse)
   );
 
   return {
