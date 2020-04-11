@@ -16,22 +16,36 @@ const sortDaysCalculation = (periodType, timeToElapse) => {
   const formattedPeriodType = periodType.toLowerCase();
   switch (formattedPeriodType) {
     case 'days':
-      return 2 ** Math.trunc((timeToElapse / 3));
+      return timeToElapse;
     case 'weeks':
-      return 2 ** Math.trunc((timeToElapse * 7) / 3);
+      return timeToElapse * 7;
     case 'months':
-      return 2 ** Math.trunc((timeToElapse * 30) / 3);
+      return timeToElapse * 30;
     default:
       return null;
   }
 };
+
+// const sortDaysCalculationForInfection = (periodType, timeToElapse) => {
+//   const formattedPeriodType = periodType.toLowerCase();
+//   switch (formattedPeriodType) {
+//     case 'days':
+//       return 2 ** Math.trunc((timeToElapse / 3));
+//     case 'weeks':
+//       return 2 ** Math.trunc((timeToElapse * 7) / 3);
+//     case 'months':
+//       return 2 ** Math.trunc((timeToElapse * 30) / 3);
+//     default:
+//       return null;
+//   }
+// };
 
 const covid19ImpactEstimator = (data) => {
   const inputData = data;
   // Impact variables declaration
   const impactCurrentlyInfected = currentlyInfectedPeople(inputData.reportedCases, 0);
   const impactInfectionsByRequestedTime = impactCurrentlyInfected
-    * sortDaysCalculation(inputData.periodType, inputData.timeToElapse);
+    * (2 ** Math.trunc(sortDaysCalculation(inputData.periodType, inputData.timeToElapse)));
   const impactSevereCasesByRequestedTime = (15 / 100) * impactInfectionsByRequestedTime;
   const impactHospitalBedsByRequestedTime = Math.trunc(
     ((35 / 100) * inputData.totalHospitalBeds) - impactSevereCasesByRequestedTime
@@ -44,13 +58,14 @@ const covid19ImpactEstimator = (data) => {
   );
   const impactDollarsInFlight = (
     (impactInfectionsByRequestedTime * inputData.region.avgDailyIncomePopulation)
-    * inputData.region.avgDailyIncomeInUSD * inputData.timeToElapse
+    * inputData.region.avgDailyIncomeInUSD
+    * sortDaysCalculation(inputData.periodType, inputData.timeToElapse)
   );
 
   // Severe Impact variable declarations
   const severeImpactCurrentlyInfected = currentlyInfectedPeople(data.reportedCases, 1);
   const severeImpactInfectionsByRequestedTime = severeImpactCurrentlyInfected
-    * sortDaysCalculation(inputData.periodType, inputData.timeToElapse);
+    * (2 ** Math.trunc(sortDaysCalculation(inputData.periodType, inputData.timeToElapse)));
   const severeImpactSevereCasesByRequestedTime = (15 / 100) * severeImpactInfectionsByRequestedTime;
   const severeImpactHospitalBedsByRequestedTime = Math.trunc(
     ((35 / 100) * inputData.totalHospitalBeds) - severeImpactSevereCasesByRequestedTime
@@ -63,7 +78,8 @@ const covid19ImpactEstimator = (data) => {
   );
   const severeImpactDollarsInFlight = (
     (severeImpactInfectionsByRequestedTime * inputData.region.avgDailyIncomePopulation)
-    * inputData.region.avgDailyIncomeInUSD * inputData.timeToElapse
+    * inputData.region.avgDailyIncomeInUSD
+    * sortDaysCalculation(inputData.periodType, inputData.timeToElapse)
   );
 
   return {
